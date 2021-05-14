@@ -6,7 +6,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "chart.js": "^3.2.1",
+    "chart.js": "^2.8.0",
     "vue": "^3.0.4"
   },
   "devDependencies": {
