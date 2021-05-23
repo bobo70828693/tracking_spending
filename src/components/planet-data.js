@@ -1,34 +1,23 @@
 export const planetChartData = {
-  type: "bar",
+  type: "doughnut",
   data: {
-    labels: ['Italy', 'UK', 'USA', 'Germany', 'France', 'Japan'],
+    labels: ["2330", "2303", "2409", "2609", "2603"],
     datasets: [
       {
-          label: '2010 customers #',
-          fillColor: '#382765',
-          data: [2500, 1902, 1041, 610, 1245, 952]
-      },
-      {
-          label: '2014 customers #',
-          fillColor: '#7BC225',
-          data: [3104, 1689, 1318, 589, 1199, 1436]
+        data: [2000, 1000, 3000, 500, 250],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+        ],
       }
-  ]
+    ],
   },
   options: {
-    responsive: true,
-    lineTension: 1,
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-            padding: 25
-          }
-        }
-      ]
-    }
-  }
+    cutoutPercentage: 30
+  },
 };
 
 export default planetChartData;

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+
 body, html {
     margin: 0;
 }
@@ -6,4 +8,39 @@ body {
 }
 div#app {
     margin: 0;
+}
+
+.wrapper {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    // justify-content: space-between;
+}
+.trading_list {
+    box-sizing: border-box;
+    width: 50%;
+    & .trading_table {
+        padding: 5%;
+    }
+    & h3 {
+        color: #eee;
+        margin-bottom: 0;
+    }
+}
+.stock_position {
+    box-sizing: border-box;
+    width: 60%;
+    & h3 {
+        color: #eee;
+    }
+}
+canvas {
+    width: 100%;
+}
+
+.el-table th,
+.el-table td {
+    font-family: 'Itim', '微軟正黑體';
+    border-bottom: solid 3px rgba(255,255,255,0.5);
+    padding: 8px;
 }
