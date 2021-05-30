@@ -38,9 +38,15 @@ canvas {
     width: 100%;
 }
 
-.el-table th,
-.el-table td {
-    font-family: 'Itim', '微軟正黑體';
-    border-bottom: solid 3px rgba(255,255,255,0.5);
-    padding: 8px;
+table.el-table__body {
+    tr.el-table__row:hover {
+        td {
+            background-color: rgb(243, 189, 72);
+            color: rgb(48, 44, 44);
+        }
+    }
+}
+
+.trade_box {
+    margin-top: 5%;
 }

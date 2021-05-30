@@ -6,6 +6,7 @@
       <h3>Trading Log</h3>
       <div class="trading_table">
         <trading-list></trading-list>
+        <add-trade></add-trade>
       </div>
     </div>
     <div class="stock_position">
@@ -25,6 +26,7 @@ import NavBar from "./components/NavBar.vue";
 import DashBoard from "./components/DashBoard.vue";
 import ShareHoldingGraph from "./components/Dounhunt/ShareHoldingGraph.vue";
 import TradingList from "./components/TradingList.vue";
+import AddTrade from "./components/AddTrade.vue";
 
 export default {
   name: "App",
@@ -33,7 +35,8 @@ export default {
     NavBar,
     DashBoard,
     ShareHoldingGraph,
-    TradingList
+    TradingList,
+    AddTrade
   },
 };
 </script>
