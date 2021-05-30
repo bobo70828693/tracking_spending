@@ -1,0 +1,22 @@
+{
+  "name": "stock-vue",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "chart.js": "^2.8.0",
+    "element-plus": "^1.0.2-beta.44",
+    "firebase": "^8.6.3-2021425213031",
+    "vue": "^3.0.4",
+    "vuefire": "^3.0.0-alpha.2"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.0.4",
+    "node-sass": "^5.0.0",
+    "sass": "^1.32.12",
+    "sass-loader": "^11.0.1",
+    "vite": "^1.0.0-rc.13"
+  }
+}
