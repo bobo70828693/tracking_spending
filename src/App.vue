@@ -9,14 +9,18 @@
         <add-trade></add-trade>
       </div>
     </div>
-    <div class="stock_position">
+    <div class="stock_position" @click="nextPage()">
       <h3>Stock Position</h3>
-      <share-holding-graph></share-holding-graph>
+      <div :class="(leftPage)? 'pages leftPage': 'pages'" ref="pages">
+          <div class="page page1">
+            <share-holding-graph></share-holding-graph>
+          </div>
+          <div class="page page2">
+            <trading-view></trading-view>
+          </div>
+        </div>
     </div>
   </div>
-  <!-- <h3 class="text">Test</h3>
-  <img alt="Vue logo" src="./assets/logo.png" /> -->
-  <!-- <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
 </template>
 
 <script>
@@ -27,6 +31,7 @@ import DashBoard from "./components/DashBoard.vue";
 import ShareHoldingGraph from "./components/Dounhunt/ShareHoldingGraph.vue";
 import TradingList from "./components/TradingList.vue";
 import AddTrade from "./components/AddTrade.vue";
+import TradingView from "./components/TradingView.vue";
 
 export default {
   name: "App",
@@ -36,7 +41,18 @@ export default {
     DashBoard,
     ShareHoldingGraph,
     TradingList,
-    AddTrade
+    AddTrade,
+    TradingView,
   },
+  data() {
+    return {
+      leftPage: false
+    }
+  },
+  methods: {
+    nextPage() {
+      this.leftPage = !(this.leftPage);
+    }
+  }
 };
 </script>

@@ -11,7 +11,6 @@
           v-model="tradeInfo.date"
           type="date"
           format="YYYY-MM-DD"
-          value-format="YYYY-MM-DD"
           placeholder="選擇日期"
         >
         </el-date-picker>
@@ -44,7 +43,7 @@
     </el-form-item>
     <el-form-item>
       <el-button
-        type="success"
+        :type="isSubmit? 'success' : 'warning'"
         icon="el-icon-check"
         circle
         @click="onSubmit"
@@ -67,6 +66,7 @@ export default {
       },
       testData: [],
       stockList: [],
+      isSubmit: false
     };
   },
   firestore() {
@@ -77,14 +77,31 @@ export default {
   },
   methods: {
     onSubmit() {
+      var date = new Date(this.tradeInfo.date)
+      var month = ((date.getMonth() + 1) < 10)? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+      var day = (date.getDate() < 10)? '0' + date.getDate() : date.getDate();
+
+      var dateStr = date.getFullYear() + '-' + month + '-' + day;
+
       db.collection("trade").add({
         stock_id: this.tradeInfo.stock_id,
-        is_sell_out: true,
+        is_sell_out: false,
         num: this.tradeInfo.num,
         trade_price: this.tradeInfo.tradePrice,
-        date: "2021-05-06",
+        date: dateStr,
       });
-      console.log("submit", this.tradeInfo);
+
+      // 交易紀錄
+      db.collection("trade_log").add({
+        action: 'buy',
+        num: this.tradeInfo.num,
+        stock_id: this.tradeInfo.stock_id,
+        trade_price: this.tradeInfo.tradePrice,
+        date: dateStr,
+        fee: Math.round(this.tradeInfo.num * this.tradeInfo.tradePrice)
+      });
+
+      this.isSubmit = true;
     },
   },
 };
