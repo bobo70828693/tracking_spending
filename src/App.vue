@@ -1,6 +1,5 @@
 <template>
   <nav-bar></nav-bar>
-  <!-- <dash-board></dash-board> -->
   <div class="wrapper">
     <div class="trading_list">
       <h3>Trading Log</h3>
@@ -27,7 +26,6 @@
 // import HelloWorld from './components/HelloWorld.vue'
 import Chart from "chart.js";
 import NavBar from "./components/NavBar.vue";
-import DashBoard from "./components/DashBoard.vue";
 import ShareHoldingGraph from "./components/Dounhunt/ShareHoldingGraph.vue";
 import TradingList from "./components/TradingList.vue";
 import AddTrade from "./components/AddTrade.vue";
@@ -38,7 +36,6 @@ export default {
   components: {
     // HelloWorld
     NavBar,
-    DashBoard,
     ShareHoldingGraph,
     TradingList,
     AddTrade,
