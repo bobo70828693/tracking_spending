@@ -42,6 +42,8 @@ div#app {
         color: #eee;
     }
     & .pages {
+        transition: all 0.5s;
+        left: 0;
         white-space: nowrap;
         & .page {
             width: 100%;
@@ -52,7 +54,6 @@ div#app {
     }
     & .leftPage {
         left: -100%;
-        transition: 2s;
     }
 }
 canvas {
@@ -63,6 +64,9 @@ table.el-table__body {
     tr.el-table__row:hover {
         td {
             background-color: rgb(243, 189, 72);
+            color: rgb(48, 44, 44);
+        }
+        & #soldOut {
             color: rgb(48, 44, 44);
         }
     }
@@ -82,4 +86,8 @@ table.el-table__body {
 
 .el-input-number {
     width: 100px;
+}
+
+.press_box {
+    margin-top: 30px;
 }

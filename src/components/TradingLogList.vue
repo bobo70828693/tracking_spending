@@ -43,26 +43,6 @@ export default {
   data() {
     return {
       tradeLog: [],
-      tableData: [
-        {
-          date: "2021/05/05",
-          action: "現買",
-          stockNo: "2609 長榮",
-          tradePrice: "84.4",
-          num: "250",
-          cost: "21100",
-          income: "0",
-        },
-        {
-          date: "2021/05/05",
-          action: "現買",
-          stockNo: "2609 長榮",
-          tradePrice: "84.4",
-          num: "250",
-          cost: "21100",
-          income: "0",
-        },
-      ],
     };
   },
   firestore() {

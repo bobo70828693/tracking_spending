@@ -1,40 +1,40 @@
 <template>
   <el-table
-    :data="tableData"
+    :data="getTrade()"
     style="width: 100%"
     :row-style="tableRowStyle"
     :header-cell-style="tableHeaderColor"
   >
-    <el-table-column prop="date" label="日期" width="180"> </el-table-column>
-    <el-table-column label="操作" width="80">
-      <template #default="scope">
-        <span v-if="scope.row.action == 'buy'">買入</span>
-        <span v-else>賣出</span>
-      </template>
+    <el-table-column prop="stockID" label="股名" width="180"> </el-table-column>
+    <el-table-column prop="tradePrice" label="現價" width="150">
     </el-table-column>
-    <el-table-column prop="stock_id" label="編號" width="150"> </el-table-column>
-    <el-table-column prop="trade_price" label="成交價" width="100">
+    <el-table-column prop="tradePrice" label="成交均價" width="100">
     </el-table-column>
-    <el-table-column label="股數">
-      <template #default="scope">
-        <span>{{ scope.row.num }}</span>
-      </template>
+    <el-table-column prop="num" label="股數"> </el-table-column>
+    <el-table-column prop="income" label="未實現損益 Income(Loss)">
     </el-table-column>
-    <el-table-column prop="cost" label="成本">
-      <template #default="scope">
-        <span v-if="scope.row.action == 'buy'">{{ scope.row.fee }}</span>
-        <span v-else>0</span>
-      </template>
-    </el-table-column>
-    <el-table-column prop="income" label="實現損益 Income(Loss)" width="300">
-      <template #default="scope">
+    <!-- <template #default="scope">
         <span v-if="scope.row.action == 'sale'">{{ scope.row.fee }}</span>
         <span v-else>0</span>
-      </template>
+      </template> -->
+    <!-- </el-table-column> -->
+    <el-table-column label="平倉">
+      <el-popover placement="top" :width="160" v-model:visible="visible">
+        <p>这是一段内容这是一段内容确定删除吗？</p>
+        <div style="text-align: right; margin: 0">
+          <el-button size="mini" type="text" @click="visible = false"
+            >取消</el-button
+          >
+          <el-button type="primary" size="mini" @click="visible = false"
+            >确定</el-button
+          >
+        </div>
+        <template #reference>
+          <el-button type="warning" id="soldOut" @click="visible = true">平倉</el-button>
+        </template>
+      </el-popover>
     </el-table-column>
   </el-table>
-  <el-pagination background layout="prev, pager, next" :total="1000">
-  </el-pagination>
 </template>
 
 <script>
@@ -42,35 +42,61 @@ import { db } from "../firebase.js";
 export default {
   data() {
     return {
-      tradeLog: [],
-      tableData: [
-        {
-          date: "2021/05/05",
-          action: "現買",
-          stock_id: "2609 長榮",
-          trade_price: "84.4",
-          num: "250",
-          fee: "21100",
-        },
-        {
-          date: "2021/05/05",
-          action: "現買",
-          stock_id: "2609 長榮",
-          trade_price: "84.4",
-          num: "250",
-          fee: "21100",
-        },
-      ],
+      tradeView: [],
+      tradeData: [],
     };
   },
-  firestore() {
-    return {
-      tradeLog: db.collection("trade_log").orderBy('date', 'desc'),
-    };
+  // firestore() {
+  //   return {
+  //     tradeView: db.collection("trade").orderBy("date", "desc"),
+  //   };
+  // },
+  mounted() {
+    db.collection("trade")
+      .orderBy("date", "desc")
+      .get()
+      .then((currentValue) => {
+        this.tradeView = currentValue.docs.map((doc) => doc.data());
+      });
+    // this.fetchAPI()
+  },
+  computed: {
+    handleTradeData: function () {
+      let stockIDList = new Set(...[this.tradeView.map((val) => val.stock_id)]);
+      let tradeData = [];
+      stockIDList.forEach((val) => {
+        let data = [];
+        this.tradeView.forEach((currentValue) => {
+          if (val == currentValue.stock_id) {
+            if (data.length == 0) {
+              data = {
+                stockID: currentValue.stock_id,
+                isSellOut: currentValue.is_sell_out,
+                num: parseInt(currentValue.num),
+                tradePrice: currentValue.trade_price,
+              };
+            } else {
+              data = {
+                stockID: currentValue.stock_id,
+                isSellOut: currentValue.is_sell_out,
+                num: parseInt(data.num) + parseInt(currentValue.num),
+                tradePrice:
+                  (parseFloat(data.tradePrice) +
+                    parseFloat(currentValue.trade_price)) /
+                  (parseInt(data.num) + parseInt(currentValue.num)),
+              };
+            }
+          }
+        });
+        tradeData.push(data);
+      });
+
+      return (this.tradeData = tradeData);
+    },
   },
   methods: {
-    getTradeLog: function () {
-      return this.tradeLog;
+    getTrade: function () {
+      return this.tradeData;
     },
     tableRowStyle({ row, rowIndex }) {
       return "background-color: rgb(48, 44, 44);color: #fff;";
@@ -81,6 +107,15 @@ export default {
         return "background-color: rgb(48, 44, 44);color: #fff;font-weight: 500;padding: 10px";
       }
     },
+
+    // async fetchAPI(){
+    //    await db.collection("trade")
+    //   .orderBy("date", "desc")
+    //   .get()
+    //   .then((currentValue) => {
+    //     this.tradeView = currentValue.docs.map((doc) => doc.data());
+    //   });
+    // },
   },
 };
 </script>
