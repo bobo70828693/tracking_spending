@@ -6,6 +6,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "chart.js": "^2.8.0",
     "element-plus": "^1.0.2-beta.44",
     "firebase": "^8.6.3-2021425213031",
