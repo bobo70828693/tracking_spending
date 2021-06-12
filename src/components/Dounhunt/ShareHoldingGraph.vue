@@ -17,19 +17,25 @@ export default {
   components: {
     DounhnutExample,
   },
+  props: ['tradeData'],
+  updated() {
+    this.tradeData.forEach((stockInfo) => {
+      this.labels.push(stockInfo.stockID);
+      this.datasets[0].data.push(stockInfo.num);
+    })
+  },
   data() {
     return {
       dounhuntId: "sharehoding-graph",
-      labels: ["2330", "2303", "2409", "2609", "2603"],
+      test: [],
+      labels: [],
       datasets: [
         {
-          data: [2000, 1000, 3000, 500, 250],
+          data: [],
           backgroundColor: [
             "rgba(255, 99, 132, 0.7)",
             "rgba(54, 162, 235, 0.7)",
             "rgba(255, 206, 86, 0.7)",
-            "rgba(75, 192, 192, 0.7)",
-            "rgba(153, 102, 255, 0.7)",
           ],
         },
       ],

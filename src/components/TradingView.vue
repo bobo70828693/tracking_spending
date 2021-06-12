@@ -10,8 +10,8 @@
     </el-table-column>
     <el-table-column prop="tradePrice" label="成交均價" width="100">
     </el-table-column>
-    <el-table-column prop="num" label="股數"> </el-table-column>
-    <el-table-column prop="income" label="未實現損益 Income(Loss)" width="300">
+    <el-table-column prop="num" label="股數" width="100"> </el-table-column>
+    <el-table-column prop="income" label="未實現損益 Income(Loss)" width="200">
     </el-table-column>
     <!-- <template #default="scope">
         <span v-if="scope.row.action == 'sale'">{{ scope.row.fee }}</span>
@@ -19,16 +19,20 @@
       </template> -->
     <!-- </el-table-column> -->
     <el-table-column label="平倉">
-      <el-popover placement="top" :width="160" v-model:visible="visible">
-        <p>这是一段内容这是一段内容确定删除吗？</p>
-        <div style="text-align: right; margin: 0">
-          <el-button size="mini" type="text" @click="visible = false"
-            >取消</el-button
-          >
-          <el-button type="primary" size="mini" @click="visible = false"
-            >确定</el-button
-          >
-        </div>
+      <el-popover placement="top" :width="20" v-model:visible="visible">
+        <el-form :inline="true" :model="soldOutInfo" class="demo-form-inline">
+          <el-form-item label="編號">
+            <el-input v-model="soldOutInfo.stockID" placeholder=""></el-input>
+          </el-form-item>
+          <el-form-item label="股數" label-width="50px">
+            <el-col :span="10">
+              <el-input v-model="soldOutInfo.num" clearable> </el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="soldOut">送出</el-button>
+          </el-form-item>
+        </el-form>
         <template #reference>
           <el-button type="warning" id="soldOut" @click="visible = true"
             >平倉</el-button
@@ -40,84 +44,21 @@
 </template>
 
 <script>
-import { db } from "../firebase.js";
-import axios from "axios";
-
 export default {
+  props: ['tradeData'],
   data() {
     return {
+      soldOutInfo: {
+        num: 0,
+        stockID: "",
+      },
       tradeView: [],
-      tradeData: this.handleTradeData(),
-      stockInfo: []
+      stockInfo: [],
     };
   },
-  created() {
-    db.collection("trade")
-      .orderBy("date", "desc")
-      .get()
-      .then((currentValue) => {
-        this.tradeView = currentValue.docs.map((doc) => doc.data());
-      });
-  },
   methods: {
-    async handleTradeData() {
-      let stockIDList = new Set(...[this.tradeView.map((val) => val.stock_id)]);
-      let stockIDListAr = Array.from(stockIDList);
-      let tradeData = [];
-
-      for(let i = 0; i < stockIDListAr.length; i++) {
-        let data = [];
-        await this.getStockInfo(stockIDListAr[i]);
-        this.tradeView.forEach((currentValue) => {
-          if (stockIDListAr[i] == currentValue.stock_id) {
-            if (data.length == 0) {
-              data = {
-                stockID: currentValue.stock_id,
-                priceReference: this.stockInfo.priceReference,
-                isSellOut: currentValue.is_sell_out,
-                num: parseInt(currentValue.num),
-                tradePrice: currentValue.trade_price,
-              };
-            } else {
-              data = {
-                stockID: currentValue.stock_id,
-                priceReference: this.stockInfo.priceReference,
-                isSellOut: currentValue.is_sell_out,
-                num: parseInt(data.num) + parseInt(currentValue.num),
-                tradePrice:
-                  (parseFloat(data.tradePrice) +
-                    parseFloat(currentValue.trade_price)) /
-                  (parseInt(data.num) + parseInt(currentValue.num)),
-              };
-            }
-          }
-        });
-        tradeData.push(data);
-      }
-      console.log(tradeData);
-      return tradeData;
-    },
-    getTrade: function () {
-      return this.tradeData;
-    },
-    getStockInfo(stockID) {
-      console.log("stockID ===> ", stockID);
-      let url = "https://api.fugle.tw/realtime/v0.2/intraday/meta?symbolId="+ stockID +"&apiToken=";
-
-      const headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      };
-
-      let stockInfo = axios.get(url, { headers })
-        .then((res) => {
-          this.stockInfo = res.data.data.meta;
-        })
-        .catch(function (error) {
-          console.log("連線異常");
-        });
-
-        return stockInfo;
+    soldOut() {
+      console.log("sold out");
     },
     tableRowStyle({ row, rowIndex }) {
       return "background-color: rgb(48, 44, 44);color: #fff;";
@@ -128,15 +69,6 @@ export default {
         return "background-color: rgb(48, 44, 44);color: #fff;font-weight: 500;padding: 10px";
       }
     },
-
-    // async fetchAPI(){
-    //    await db.collection("trade")
-    //   .orderBy("date", "desc")
-    //   .get()
-    //   .then((currentValue) => {
-    //     this.tradeView = currentValue.docs.map((doc) => doc.data());
-    //   });
-    // },
   },
 };
 </script>
