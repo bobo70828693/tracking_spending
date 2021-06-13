@@ -13,19 +13,16 @@
     <el-table-column prop="num" label="股數" width="100"> </el-table-column>
     <el-table-column prop="income" label="未實現損益 Income(Loss)" width="200">
     </el-table-column>
-    <!-- <template #default="scope">
-        <span v-if="scope.row.action == 'sale'">{{ scope.row.fee }}</span>
-        <span v-else>0</span>
-      </template> -->
-    <!-- </el-table-column> -->
     <el-table-column label="平倉">
-      <el-popover placement="top" :width="20" v-model:visible="visible">
-        <el-form :inline="true" :model="soldOutInfo" class="demo-form-inline">
+      <el-popover placement="top" :width="250" v-model:visible="visible">
+        <el-form :model="soldOutInfo" class="demo-form-inline">
           <el-form-item label="編號">
-            <el-input v-model="soldOutInfo.stockID" placeholder=""></el-input>
+            <el-col :span="12">
+              <el-input v-model="soldOutInfo.stockID" placeholder=""></el-input>
+            </el-col>
           </el-form-item>
           <el-form-item label="股數" label-width="50px">
-            <el-col :span="10">
+            <el-col :span="12">
               <el-input v-model="soldOutInfo.num" clearable> </el-input>
             </el-col>
           </el-form-item>
@@ -44,8 +41,10 @@
 </template>
 
 <script>
+import { db } from "../firebase.js";
+ 
 export default {
-  props: ['tradeData'],
+  props: ["tradeData"],
   data() {
     return {
       soldOutInfo: {
@@ -53,12 +52,43 @@ export default {
         stockID: "",
       },
       tradeView: [],
-      stockInfo: [],
+      stockData: [],
     };
+  },
+  mounted() {
+    db.collection("trade")
+      .orderBy("date", "desc")
+      .get()
+      .then((currentValue) => {
+        this.stockData = currentValue.docs.map((doc) => {
+          return {
+            ...doc.data(),
+            id: doc.id
+          }
+        });
+      });
   },
   methods: {
     soldOut() {
-      console.log("sold out");
+       this.stockData.forEach((currentStock) => {
+         if ((this.soldOutInfo.stockID == currentStock.stock_id) && (currentStock.is_sell_out == false)) {
+           if (currentStock.num >= this.soldOutInfo.num) {
+              // 庫藏股足夠 可賣
+
+           }
+         }
+       });
+    },
+    saleStock() {
+      // // 交易紀錄
+      // db.collection("trade_log").add({
+      //   action: 'buy',
+      //   num: this.tradeInfo.num,
+      //   stock_id: this.tradeInfo.stock_id,
+      //   trade_price: this.tradeInfo.tradePrice,
+      //   date: dateStr,
+      //   fee: Math.round(this.tradeInfo.num * this.tradeInfo.tradePrice)
+      // });
     },
     tableRowStyle({ row, rowIndex }) {
       return "background-color: rgb(48, 44, 44);color: #fff;";

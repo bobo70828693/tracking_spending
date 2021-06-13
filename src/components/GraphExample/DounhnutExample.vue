@@ -40,7 +40,15 @@ export default {
       },
     };
   },
-  mounted() {
+  watch: {
+    dounhnutData: {
+      handler: function() {
+        console.log("change", this.dounhnutData);
+      }
+    }
+  },
+  updated() {
+    console.log(this.labels, this.dataSets);
     this.$nextTick(() => {
       const ctx = document.getElementById("sharehoding-graph");
       new Chart(ctx, this.dounhnutData);

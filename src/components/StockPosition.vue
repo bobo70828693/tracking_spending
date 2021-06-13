@@ -40,12 +40,17 @@ export default {
       leftPage: false,
     };
   },
-  mounted() {
+  created() {
     db.collection("trade")
       .orderBy("date", "desc")
       .get()
       .then((currentValue) => {
-        this.tradeView = currentValue.docs.map((doc) => doc.data());
+        this.tradeView = currentValue.docs.map((doc) => {
+            return {
+                ...doc.data(),
+                id: doc.id
+            }
+        });
         this.handleTradeData();
       });
   },
@@ -62,9 +67,10 @@ export default {
         let data = [];
         await this.getStockInfo(stockIDListAr[i]);
         this.tradeView.forEach((currentValue) => {
-          if (stockIDListAr[i] == currentValue.stock_id) {
+          if ((stockIDListAr[i] == currentValue.stock_id) && (currentValue.is_sell_out == false)) {
             if (data.length == 0) {
               data = {
+                id: currentValue.id,
                 stockID: currentValue.stock_id,
                 priceReference: this.stockInfo.priceReference,
                 isSellOut: currentValue.is_sell_out,
@@ -74,6 +80,7 @@ export default {
               };
             } else {
               data = {
+                id: currentValue.id,
                 stockID: currentValue.stock_id,
                 priceReference: this.stockInfo.priceReference,
                 isSellOut: currentValue.is_sell_out,
@@ -87,7 +94,9 @@ export default {
             }
           }
         });
-        tradeData.push(data);
+        if (data.length != 0) {
+            tradeData.push(data);
+        }
       }
       this.tradeData = tradeData;
     },

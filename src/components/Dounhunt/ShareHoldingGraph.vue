@@ -18,16 +18,9 @@ export default {
     DounhnutExample,
   },
   props: ['tradeData'],
-  updated() {
-    this.tradeData.forEach((stockInfo) => {
-      this.labels.push(stockInfo.stockID);
-      this.datasets[0].data.push(stockInfo.num);
-    })
-  },
   data() {
     return {
       dounhuntId: "sharehoding-graph",
-      test: [],
       labels: [],
       datasets: [
         {
@@ -43,6 +36,13 @@ export default {
         cutoutPercentage: 30,
       },
     };
+  },
+  beforeUpdate() {
+    this.tradeData.forEach((stockInfo) => {
+      this.labels.push(stockInfo.stockID);
+      this.datasets[0].data.push(stockInfo.num);
+    })
+    console.log("===>", this.labels, this.datasets);
   },
 };
 </script>
