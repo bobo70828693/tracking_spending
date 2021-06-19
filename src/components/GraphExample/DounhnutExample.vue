@@ -42,7 +42,6 @@ export default {
     },
     computed: {
         render() {
-            console.log('tes ==> ', this.dounhnutData)
             const ctx = document.getElementById('sharehoding-graph')
             new Chart(ctx, this.dounhnutData)
 
