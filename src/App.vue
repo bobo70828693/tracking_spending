@@ -1,34 +1,34 @@
 <template>
-  <nav-bar></nav-bar>
-  <div class="wrapper">
-    <div class="trading_list">
-      <h3>Trading Log</h3>
-      <div class="trading_table">
-        <trading-log-list></trading-log-list>
-        <add-trade></add-trade>
-      </div>
+    <nav-bar></nav-bar>
+    <div class="wrapper">
+        <div class="trading_list">
+            <h3>Trading Log</h3>
+            <div class="trading_table">
+                <trading-log-list></trading-log-list>
+                <add-trade></add-trade>
+            </div>
+        </div>
+        <div class="stock_position">
+            <h3>Stock Position</h3>
+            <stock-position></stock-position>
+        </div>
     </div>
-    <div class="stock_position">
-      <h3>Stock Position</h3>
-      <stock-position></stock-position>
-    </div>
-  </div>
 </template>
 
 <script>
-import Chart from "chart.js";
-import NavBar from "./components/NavBar.vue";
-import TradingLogList from "./components/TradingLogList.vue";
-import AddTrade from "./components/AddTrade.vue";
-import StockPosition from "./components/StockPosition.vue";
+import Chart from 'chart.js'
+import NavBar from './components/NavBar.vue'
+import TradingLogList from './components/TradingLogList.vue'
+import AddTrade from '/@/components/AddTrade.vue'
+import StockPosition from './components/StockPosition.vue'
 
 export default {
-  name: "App",
-  components: {
-    NavBar,
-    TradingLogList,
-    AddTrade,
-    StockPosition
-  }
-};
+    name: 'App',
+    components: {
+        NavBar,
+        TradingLogList,
+        AddTrade,
+        StockPosition,
+    },
+}
 </script>
