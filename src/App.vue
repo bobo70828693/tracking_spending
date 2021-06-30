@@ -17,10 +17,10 @@
 
 <script>
 import Chart from 'chart.js'
-import NavBar from './components/NavBar.vue'
-import TradingLogList from './components/TradingLogList.vue'
-import AddTrade from '/@/components/AddTrade.vue'
-import StockPosition from './components/StockPosition.vue'
+import NavBar from '@/components/NavBar.vue'
+import TradingLogList from '@/components/TradingLogList.vue'
+import AddTrade from '@/components/AddTrade.vue'
+import StockPosition from '@/components/StockPosition.vue'
 
 export default {
     name: 'App',

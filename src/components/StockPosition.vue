@@ -97,7 +97,11 @@ export default {
             return this.tradeData
         },
         getStockInfo(stockID) {
-            let url = 'https://api.fugle.tw/realtime/v0.2/intraday/meta?symbolId=' + stockID + '&apiToken='
+            let url =
+                'https://api.fugle.tw/realtime/v0.2/intraday/meta?symbolId=' +
+                stockID +
+                '&apiToken=' +
+                import.meta.env.VITE_FUGLE_API_TOKEN
 
             const headers = {
                 Accept: 'application/json',
