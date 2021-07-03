@@ -1,5 +1,6 @@
 <template>
     <el-table
+        v-loading="loading"
         :data="getTradeLog()"
         style="width: 100%"
         :row-style="tableRowStyle"
@@ -53,6 +54,7 @@ export default {
             itemNum: 5,
             totalCount: 0,
             page: 1,
+            loading: false,
         }
     },
     mounted() {
@@ -61,6 +63,7 @@ export default {
     },
     methods: {
         getTradeLogData(page, count = this.itemNum) {
+            this.loading = true
             var startAt = (page - 1) * count
             var endAt = page * count
             db.collection('trade_log')
@@ -75,6 +78,7 @@ export default {
                         }
                     })
                     this.tradeLog = result.slice(startAt, endAt)
+                    this.loading = false
                 })
         },
         getTradeLogCount() {
