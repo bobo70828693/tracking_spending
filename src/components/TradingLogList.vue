@@ -63,7 +63,6 @@ export default {
         getTradeLogData(page, count = this.itemNum) {
             var startAt = (page - 1) * count
             var endAt = page * count
-            console.log(startAt, endAt)
             db.collection('trade_log')
                 .orderBy('date', 'desc')
                 .get()
