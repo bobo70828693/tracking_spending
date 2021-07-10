@@ -13,7 +13,7 @@
                 <span v-else>賣出</span>
             </template>
         </el-table-column>
-        <el-table-column prop="stock_id" label="編號" width="150"> </el-table-column>
+        <el-table-column prop="stock_id" label="編號" width="100"> </el-table-column>
         <el-table-column prop="trade_price" label="成交價" width="100"> </el-table-column>
         <el-table-column label="股數">
             <template #default="scope">

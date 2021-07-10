@@ -3,25 +3,93 @@
 nav#wrapper {
     color: #eee;
     width: 100%;
+    font-family: 'Itim', cursive;
     div.logo {
         display: inline-block;
         width: 70%;
         h3 {
-            font-family: 'Itim', cursive;
             text-align: left;
             letter-spacing: 5px;
             font-size: 30px;
         }
     }
-    ul.navbar {
+    .menu {
         display: inline-block;
-        width: 20%;
-        li {
-            font-family: 'Itim', cursive;
-            font-size: 20px;
-            display: inline-block;
-            margin: 0 10px;
-            font-weight: 900;
+        position: absolute;
+        width: 56px;
+        top: 20%;
+        right: 50px;
+        margin-right: 50px;
+        color: #fff;
+        cursor: pointer;
+        transition: 0.5s;
+        &:before,
+        &:after {
+            position: absolute;
+            transition: 0.4s ease;
+            opacity: 0;
+            pointer-events: none;
+            white-space: nowrap;
         }
+        &:before {
+            content: 'M \00a0 \00a0 \00a0 \00a0 \00a0 \00a0 \00a0 \00a0 \00a0 \00a0U';
+            font-size: 30px;
+            top: 50px;
+            left: -40%;
+            width: 10px;
+        }
+        &::after {
+            content: 'N';
+            font-size: 30px;
+            top: -50px;
+            left: 90%;
+        }
+        &:hover::before,
+        &:hover::after {
+            top: -4.3px;
+            opacity: 1;
+            transition: 0.2s ease, opacity 0.2s 0.03s ease-in;
+        }
+
+        & .bar {
+            width: 50%;
+            height: 3px;
+            background: white;
+            margin: 0 auto 10px;
+            border-radius: 5%;
+            transition: transform 0.4s ease;
+        }
+    }
+}
+
+.side-bar {
+    height: 100%;
+    position: fixed;
+    width: 0;
+    background-color: #333;
+    top: 0;
+    right: 0;
+    padding-top: 60px;
+    overflow-x: hidden;
+    z-index: 1;
+    transition: 0.5s;
+    font-family: 'Itim', cursive;
+
+    & a {
+        padding: 8px 32px 8px 15px;
+        text-decoration: none;
+        color: #818181;
+        display: block;
+        font-size: 20px;
+        text-align: left;
+    }
+    & a.close-btn {
+        position: absolute;
+        top: 0;
+        font-size: 36px;
+        margin-left: 5px;
+    }
+    & a:hover {
+        color: #f1f1f1;
     }
 }

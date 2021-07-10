@@ -18,13 +18,12 @@ div#app {
 .wrapper {
     width: 100%;
     display: flex;
+    box-sizing: border-box;
+    padding: 30px;
 }
 .trading_list {
     box-sizing: border-box;
     width: 50%;
-    & .trading_table {
-        padding: 5%;
-    }
     & h3 {
         color: #eee;
         margin-bottom: 0;
