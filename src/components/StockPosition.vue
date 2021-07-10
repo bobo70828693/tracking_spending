@@ -17,7 +17,7 @@
 import ShareHoldingGraph from './Dounhunt/ShareHoldingGraph.vue'
 import TradingView from './TradingView.vue'
 import { db } from '../firebase.js'
-import axios from 'axios'
+import { apiFugleStockInfo } from '../api.js'
 
 export default {
     components: {
@@ -97,23 +97,16 @@ export default {
             return this.tradeData
         },
         getStockInfo(stockID) {
-            let url =
-                'https://api.fugle.tw/realtime/v0.2/intraday/meta?symbolId=' +
-                stockID +
-                '&apiToken=' +
-                import.meta.env.VITE_FUGLE_API_TOKEN
-
-            const headers = {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            }
-
-            let stockInfo = axios
-                .get(url, { headers })
+            let stockInfo = apiFugleStockInfo({
+                params: {
+                    symbolId: stockID,
+                    apiToken: import.meta.env.VITE_FUGLE_API_TOKEN,
+                },
+            })
                 .then((res) => {
                     this.stockInfo = res.data.data.meta
                 })
-                .catch(function (error) {
+                .catch((error) => {
                     console.log('連線異常')
                 })
 
