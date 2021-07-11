@@ -1,5 +1,6 @@
 <template>
     <nav-bar></nav-bar>
+    <over-view></over-view>
     <div class="wrapper">
         <div class="trading_list">
             <h3>Trading Log</h3>
@@ -21,6 +22,7 @@ import NavBar from '@/components/NavBar.vue'
 import TradingLogList from '@/components/TradingLogList.vue'
 import AddTrade from '@/components/AddTrade.vue'
 import StockPosition from '@/components/StockPosition.vue'
+import OverView from '@/components/OverView.vue'
 
 export default {
     name: 'App',
@@ -29,6 +31,7 @@ export default {
         TradingLogList,
         AddTrade,
         StockPosition,
+        OverView,
     },
 }
 </script>

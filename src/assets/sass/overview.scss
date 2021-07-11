@@ -1,0 +1,48 @@
+.top-view-box {
+    width: 100%;
+    display: flex;
+    color: #eee;
+    justify-content: space-evenly;
+}
+
+.label_text {
+    border: 2px solid white;
+    padding: 5px 30px;
+    border-radius: 50px;
+}
+
+.invest_text {
+    color: #39a2db;
+}
+
+.invest_label {
+    color: #39a2db;
+    background-color: darken(#39a2db, 40%);
+    border-color: darken(#39a2db, 40%);
+    transform: translateX(-100px);
+}
+
+.income_text {
+    color: #f55c47;
+}
+
+.income_label {
+    color: #f55c47;
+    background-color: darken(#f55c47, 40%);
+    border-color: darken(#f55c47, 40%);
+    transform: translateX(-100px);
+}
+
+.remuneration_text {
+    color: #ffd523;
+    &::after {
+        content: ' %';
+    }
+}
+
+.remuneration_label {
+    color: #ffd523;
+    background-color: darken(#ffd523, 40%);
+    border-color: darken(#ffd523, 40%);
+    transform: translateX(-100px);
+}
