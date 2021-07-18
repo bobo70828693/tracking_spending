@@ -56,14 +56,14 @@ export default {
             .orderByChild('date')
             .once('value')
             .then((data) => {
-                for (var i = 0; i < data.val().length; i++) {
+                data.forEach((element) => {
                     let result = []
                     result = {
-                        ...data.val()[i],
-                        id: i,
+                        ...element.val(),
+                        id: element.key,
                     }
                     this.stockData.push(result)
-                }
+                })
                 this.stockData = this.stockData.reverse()
             })
     },
