@@ -46,7 +46,8 @@
 </template>
 
 <script>
-import { db } from '../firebase.js'
+import { rtdb } from '../firebase.js'
+
 export default {
     data() {
         return {
@@ -55,6 +56,7 @@ export default {
             totalCount: 0,
             page: 1,
             loading: false,
+            testData: [],
         }
     },
     mounted() {
@@ -66,32 +68,26 @@ export default {
             this.loading = true
             var startAt = (page - 1) * count
             var endAt = page * count
-            db.collection('trade_log')
-                .orderBy('date', 'desc')
-                .get()
-                .then((currentValue) => {
-                    var result = []
-                    result = currentValue.docs.map((doc) => {
-                        return {
-                            ...doc.data(),
-                            id: doc.id,
-                        }
+
+            rtdb.ref('trade_log')
+                .orderByChild('date')
+                .once('value')
+                .then((data) => {
+                    data.forEach((element) => {
+                        this.tradeLog.push(element.val())
                     })
-                    this.tradeLog = result.slice(startAt, endAt)
+                    this.tradeLog = this.tradeLog.reverse().slice(startAt, endAt)
                     this.loading = false
                 })
         },
         getTradeLogCount() {
-            var result = []
-            db.collection('trade_log')
-                .orderBy('date', 'desc')
-                .get()
-                .then((currentValue) => {
-                    result = currentValue.docs.map((doc) => {
-                        return {
-                            ...doc.data(),
-                            id: doc.id,
-                        }
+            rtdb.ref('trade_log')
+                .orderByChild('date')
+                .once('value')
+                .then((data) => {
+                    let result = []
+                    data.forEach((element) => {
+                        result.push(element.val())
                     })
                     this.totalCount = result.length
                 })

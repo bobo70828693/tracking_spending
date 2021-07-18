@@ -16,11 +16,12 @@
 </template>
 
 <script>
+import { rtdb } from '../firebase.js'
 export default {
     data() {
         return {
-            investIn: 235000,
-            income: 12800,
+            investIn: 0,
+            income: 0,
             remuneration: 0,
         }
     },
@@ -28,6 +29,22 @@ export default {
         calcRemuneration() {
             this.remuneration = ((this.income / this.investIn) * 100).toFixed(2)
             return this.remuneration
+        },
+        calcIncome() {
+            rtdb.ref('trade_log').once('value', (currentValue) => {
+                let data = currentValue.val()
+
+                data.forEach((logInfo) => {
+                    if (logInfo.action == 'sale') {
+                        this.income += logInfo.fee
+                    }
+                })
+            })
+        },
+        getInvestInData() {
+            rtdb.ref('invest_in').once('value', (currentValue) => {
+                this.investIn = currentValue.val()
+            })
         },
     },
 }

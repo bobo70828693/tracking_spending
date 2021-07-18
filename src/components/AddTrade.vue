@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { db } from '../firebase.js'
+import { rtdb } from '../firebase.js'
 
 export default {
     data() {
@@ -63,16 +63,16 @@ export default {
                 tradePrice: 0,
                 stock_id: '',
             },
-            testData: [],
             stockList: [],
             isSubmit: false,
         }
     },
-    firestore() {
-        return {
-            testData: db.collection('trade'),
-            stockList: db.collection('stock_list'),
-        }
+    computed: {
+        getStockList() {
+            rtdb.ref('stock_list').once('value', (currentValue) => {
+                this.stockList = currentValue.val()
+            })
+        },
     },
     methods: {
         onSubmit() {
@@ -82,7 +82,7 @@ export default {
 
             var dateStr = date.getFullYear() + '-' + month + '-' + day
 
-            db.collection('trade').add({
+            rtdb.ref('trade').push({
                 stock_id: this.tradeInfo.stock_id,
                 is_sell_out: false,
                 num: this.tradeInfo.num,
@@ -91,7 +91,7 @@ export default {
             })
 
             // 交易紀錄
-            db.collection('trade_log').add({
+            rtdb.ref('trade_log').push({
                 action: 'buy',
                 num: this.tradeInfo.num,
                 stock_id: this.tradeInfo.stock_id,

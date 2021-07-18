@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { db } from '../firebase.js'
+import { rtdb } from '../firebase.js'
 
 export default {
     props: ['tradeData'],
@@ -52,16 +52,19 @@ export default {
         }
     },
     mounted() {
-        db.collection('trade')
-            .orderBy('date', 'desc')
-            .get()
-            .then((currentValue) => {
-                this.stockData = currentValue.docs.map((doc) => {
-                    return {
-                        ...doc.data(),
-                        id: doc.id,
+        rtdb.ref('trade')
+            .orderByChild('date')
+            .once('value')
+            .then((data) => {
+                for (var i = 0; i < data.val().length; i++) {
+                    let result = []
+                    result = {
+                        ...data.val()[i],
+                        id: i,
                     }
-                })
+                    this.stockData.push(result)
+                }
+                this.stockData = this.stockData.reverse()
             })
     },
     methods: {
@@ -77,7 +80,7 @@ export default {
 
             var dateStr = date.getFullYear() + '-' + month + '-' + day
 
-            db.collection('trade_log').add({
+            rtdb.ref('trade_log').push({
                 action: 'sale',
                 num: num,
                 stock_id: stockID,
@@ -96,12 +99,12 @@ export default {
                     if (this.soldOutInfo.num >= 0) {
                         if (currentStock.num <= this.soldOutInfo.num) {
                             currentStock.is_sell_out = true
-                            db.collection('trade').doc(currentStock.id).set(currentStock)
+                            rtdb.ref('trade/' + currentStock.id).set(currentStock)
                             this.soldOutInfo.num -= currentStock.num
                         } else {
                             currentStock.num -= this.soldOutInfo.num
                             this.soldOutInfo.num = 0
-                            db.collection('trade').doc(currentStock.id).set(currentStock)
+                            rtdb.ref('trade/' + currentStock.id).set(currentStock)
                         }
                     }
                 }

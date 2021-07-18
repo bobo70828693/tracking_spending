@@ -16,7 +16,7 @@
 <script>
 import ShareHoldingGraph from './Dounhunt/ShareHoldingGraph.vue'
 import TradingView from './TradingView.vue'
-import { db } from '../firebase.js'
+import { rtdb } from '../firebase.js'
 import { apiFugleStockInfo } from '../api.js'
 
 export default {
@@ -27,20 +27,24 @@ export default {
     data() {
         return {
             tradeData: [],
+            tradeView: [],
             leftPage: false,
         }
     },
     created() {
-        db.collection('trade')
-            .orderBy('date', 'desc')
-            .get()
-            .then((currentValue) => {
-                this.tradeView = currentValue.docs.map((doc) => {
-                    return {
-                        ...doc.data(),
-                        id: doc.id,
+        rtdb.ref('trade')
+            .orderByChild('date')
+            .once('value')
+            .then((data) => {
+                for (var i = 0; i < data.val().length; i++) {
+                    let result = []
+                    result = {
+                        ...data.val()[i],
+                        id: i,
                     }
-                })
+                    this.tradeView.push(result)
+                }
+                this.tradeView = this.tradeView.reverse()
                 this.handleTradeData()
             })
     },
