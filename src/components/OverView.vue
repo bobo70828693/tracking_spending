@@ -31,15 +31,15 @@ export default {
             return this.remuneration
         },
         calcIncome() {
-            rtdb.ref('trade_log').once('value', (currentValue) => {
-                let data = currentValue.val()
-
-                data.forEach((logInfo) => {
-                    if (logInfo.action == 'sale') {
-                        this.income += logInfo.fee
-                    }
+            rtdb.ref('trade_log')
+                .once('value')
+                .then((data) => {
+                    data.forEach((currentValue) => {
+                        if (currentValue.val().action == 'sale') {
+                            this.income += currentValue.val().fee
+                        }
+                    })
                 })
-            })
         },
         getInvestInData() {
             rtdb.ref('invest_in').once('value', (currentValue) => {
