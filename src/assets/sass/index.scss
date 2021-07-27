@@ -22,6 +22,8 @@ div#app {
 }
 .trading_list {
     box-sizing: border-box;
+    display: inline-block;
+    vertical-align: top;
     width: 50%;
     & h3 {
         color: #eee;
@@ -29,6 +31,7 @@ div#app {
     }
 }
 .stock_position {
+    display: inline-block;
     box-sizing: border-box;
     width: 50%;
     height: 700px;

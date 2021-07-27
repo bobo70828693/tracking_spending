@@ -4,14 +4,14 @@
             <h2>Login</h2>
             <form action="">
                 <div class="user-box">
-                    <input type="text" name="user" id="" />
+                    <input type="text" name="user" required="" v-model="user" />
                     <label for="user">User</label>
                 </div>
                 <div class="user-box">
-                    <input type="password" name="password" id="" />
+                    <input type="password" name="password" required="" v-model="password" />
                     <label for="password">Password</label>
                 </div>
-                <a href="#">
+                <a href="#" @click="onSubmit">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -23,5 +23,40 @@
     </div>
 </template>
 <script>
-export default {}
+import md5 from 'js-md5'
+import { rtdb } from '../firebase.js'
+export default {
+    data() {
+        return {
+            user: '',
+            password: '',
+            auth: false,
+        }
+    },
+    computed: {
+        checkLogin() {
+            if (this.auth) {
+                this.$router.push('/dashboard')
+            }
+        },
+    },
+    methods: {
+        onSubmit() {
+            rtdb.ref('users/' + this.user).once('value', (currentValue) => {
+                if (currentValue.val().password == md5(this.password)) {
+                    this.auth = true
+                    this.checkLogin()
+                } else {
+                    this.auth = false
+                    alert('使用者帳號密碼錯誤')
+                }
+            })
+        },
+        checkLogin() {
+            if (this.auth) {
+                this.$router.push('/dashboard')
+            }
+        },
+    },
+}
 </script>

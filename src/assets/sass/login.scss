@@ -34,12 +34,12 @@
             margin-bottom: 30px;
             caret-color: #fff;
             color: #fff;
-            &:hover ~ label,
+            &:valid ~ label,
             &:focus ~ label {
                 color: rgb(243, 189, 72);
-                top: -20px;
-                left: 0;
-                font-size: 16px;
+                top: -25px;
+                left: -10px;
+                font-size: 18px;
             }
         }
         & label {
