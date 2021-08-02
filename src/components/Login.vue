@@ -36,6 +36,7 @@ export default {
     computed: {
         checkLogin() {
             if (this.auth) {
+                window.$cookies.set('isLogin', true)
                 this.$router.push('/dashboard')
             }
         },
@@ -45,17 +46,11 @@ export default {
             rtdb.ref('users/' + this.user).once('value', (currentValue) => {
                 if (currentValue.val().password == md5(this.password)) {
                     this.auth = true
-                    this.checkLogin()
                 } else {
                     this.auth = false
                     alert('使用者帳號密碼錯誤')
                 }
             })
-        },
-        checkLogin() {
-            if (this.auth) {
-                this.$router.push('/dashboard')
-            }
         },
     },
 }

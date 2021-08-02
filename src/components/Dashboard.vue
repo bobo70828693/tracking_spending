@@ -27,5 +27,10 @@ export default {
         StockPosition,
         OverView,
     },
+    mounted() {
+        if (window.$cookies.get('isLogin') == 'false') {
+            this.$router.push('/')
+        }
+    },
 }
 </script>

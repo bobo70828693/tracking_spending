@@ -4,6 +4,7 @@ import ElementUI from 'element-plus'
 import { firestorePlugin } from 'vuefire'
 import { rtdbPlugin } from 'vuefire'
 import { router } from './route'
+import { VueCookies } from 'vue-cookies'
 
 // css
 import 'element-plus/lib/theme-chalk/index.css'
@@ -13,4 +14,4 @@ import './assets/sass/navbar.scss'
 import './assets/sass/overview.scss'
 import './assets/sass/login.scss'
 
-createApp(App).use(ElementUI).use(firestorePlugin).use(rtdbPlugin).use(router).mount('#app')
+createApp(App).use(ElementUI).use(firestorePlugin).use(rtdbPlugin).use(router).use(VueCookies).mount('#app')
