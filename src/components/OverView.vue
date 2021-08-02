@@ -10,7 +10,7 @@
         </div>
         <div class="box remuneration">
             <h3 class="label_text remuneration_label">報酬率</h3>
-            <h2 class="remuneration_text">{{ remuneration }}</h2>
+            <h2 class="remuneration_text">{{ calcRemuneration }}</h2>
         </div>
     </div>
 </template>
@@ -22,14 +22,14 @@ export default {
         return {
             investIn: 0,
             income: 0,
-            remuneration: 0,
         }
     },
     computed: {
         calcRemuneration() {
-            this.remuneration = ((this.income / this.investIn) * 100).toFixed(2)
-            return this.remuneration
+            return ((this.income / this.investIn) * 100).toFixed(2)
         },
+    },
+    methods: {
         calcIncome() {
             rtdb.ref('trade_log')
                 .once('value')
@@ -46,6 +46,10 @@ export default {
                 this.investIn = currentValue.val()
             })
         },
+    },
+    mounted() {
+        this.getInvestInData()
+        this.calcIncome()
     },
 }
 </script>

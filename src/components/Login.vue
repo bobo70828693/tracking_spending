@@ -4,11 +4,11 @@
             <h2>Login</h2>
             <form action="">
                 <div class="user-box">
-                    <input type="text" name="user" required="" v-model="user" />
+                    <input type="text" name="user" required="" v-model="user" id="user" />
                     <label for="user">User</label>
                 </div>
                 <div class="user-box">
-                    <input type="password" name="password" required="" v-model="password" />
+                    <input type="password" name="password" required="" v-model="password" id="password" />
                     <label for="password">Password</label>
                 </div>
                 <a href="#" @click="onSubmit">

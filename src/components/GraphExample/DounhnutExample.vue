@@ -3,7 +3,7 @@
 </template>
 <script>
 export default {
-    name: 'Dounhunt',
+    name: 'DounhuntExample',
     props: {
         dounhuntId: {
             type: String,
@@ -29,7 +29,6 @@ export default {
     },
     data() {
         return {
-            dounhuntId: this.dounhuntId,
             dounhnutData: {
                 type: 'doughnut',
                 data: {
@@ -40,12 +39,19 @@ export default {
             },
         }
     },
-    computed: {
+    watch: {
+        labels: {
+            immediate: false,
+            deep: true,
+            handler(val) {
+                this.render()
+            },
+        },
+    },
+    methods: {
         render() {
             const ctx = document.getElementById('sharehoding-graph')
             new Chart(ctx, this.dounhnutData)
-
-            return this.dounhnutData
         },
     },
 }
